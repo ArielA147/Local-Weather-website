@@ -45,18 +45,11 @@ function convertToC(fahrenheit) {
 function toggle()
 {
     var temp = document.getElementById("data-temp").innerHTML ? document.getElementById("data-temp").innerHTML : null;
-    console.log("we start with this :" + temp);
 
-
-    if(document.getElementsByClassName("toggle-btn active")){
-        console.log("we 1");
+    if (document.querySelector(".toggle-btn").classList.contains('active')){
         document.getElementById("data-temp").innerHTML= convertToF(temp);
-        console.log("we are converting c->f : " + convertToF(temp));
-        }
-    
-    else if(document.getElementsByClassName("toggle-btn")){
-        console.log("we 2");
+    }
+    else {
         document.getElementById("data-temp").innerHTML=convertToC(temp);
-        console.log("we are converting f->c : " + convertToC(temp));
     }
 }
