@@ -1,5 +1,5 @@
 function getData(){
-    const url = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=35&lon=139';
+    const url = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=32.0958&lon=34.9522';
     fetch( url, {
         method: 'GET',
     })
@@ -27,8 +27,11 @@ function updateWeatherIcon(data){
     document.getElementById("icon-watertype22").src=data.weather[0].icon;;
 }
 
+let tempCelsius;
+
 function updateCurrentTemp(data){
-    document.getElementById('data-temp').innerHTML = Math.round(data.main.temp);
+    tempCelsius =  Math.round(data.main.temp) +'\xB0C';
+    document.getElementById('data-temp').innerHTML = tempCelsius;
 }
 
 
@@ -36,11 +39,6 @@ function convertToF(celsius) {
     let fahrenheit = celsius.match(/\d+/)[0] * 9/5 + 32;
     return Math.round(fahrenheit)+'\xB0F';
   }
-
-function convertToC(fahrenheit) {
-    let celsius =  (fahrenheit.match(/\d+/)[0] -32) * 5/9;
-    return Math.round(celsius)+'\xB0C';
-}
 
 function toggle()
 {
@@ -50,6 +48,6 @@ function toggle()
         document.getElementById("data-temp").innerHTML= convertToF(temp);
     }
     else {
-        document.getElementById("data-temp").innerHTML=convertToC(temp);
+        document.getElementById("data-temp").innerHTML= tempCelsius;
     }
 }
