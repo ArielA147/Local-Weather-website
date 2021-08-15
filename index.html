@@ -13,28 +13,37 @@
     <div class="side-menu">
       
       <div>
-        <input type="checkbox" id="useLocation" name="" value="use" onclick="getData()">
+        <input type="checkbox" id="use-location">
         <img src="/icons/location.svg" alt="location">
-        <label for="useLocation">use my location</label>
+        <label for="use-location">use my location</label>
       </div>
     </div>
 
-    <div class="content">
+    <div class="content" id="content"> 
+    <div class="current-data-temp">
       <p> The current temperature is</p>
-      <p id="data-temp"> </p>
-      <div class="toggle-container">
-        <div class="toggle-btn"
-          onclick="this.classList.toggle('active'); toggle()">
-            <div class="inner-circle"></div>
-          </div>
-      </div>
-      <p id="data-watertype">Sunny</p>
-        <img id="icon-watertype22" src="/icons/location.svg">
-      </img>
+      <p id="data-temp" class="data-temp"></p>
+    </div>
+      
+    <div class="feels-like-data-temp">
+      <p>It feels like</p>
+      <p id="data-temp-feels-like" class="data-temp-feels-like"> </p>
     </div>
 
-    <div class="footer">footer</div>
-  </div>
+    <div class="toggle-container">
+      <p class="cel" id="cel">Celsius</p>
+      <div class="toggle-btn"
+        onclick="this.classList.toggle('active'); toggle()">
+        <div class="inner-circle"></div>
+      </div>
+      <p class="fer" id="fer">Fahrenheit</p>
+    </div>
+    
+    <div class="container-watertype">
+      <p id="data-watertype"></p>
+      <img id="icon-watertype22" src="">
+      </img></div>
+    </div>
 
 
 </body>
