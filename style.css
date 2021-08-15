@@ -47,13 +47,10 @@ body {
 .feels-like-data-temp {
   display: flex;
   justify-content: flex-start;
-  margin-left: 10px;
 }
 
+.data-temp,
 .data-temp-feels-like {
-  margin-left: 10px;
-}
-.data-temp {
   margin-left: 10px;
 }
 
@@ -81,12 +78,18 @@ body {
 }
 
 .toggle-container {
-  /* position:absolute; */
-  /* top:  50%; */
-  /* left: 50%; */
   /* transform: translate(-50%,-50%); */
   visibility: hidden;
+  display: flex;
+  flex-direction: row;
 }
+
+.cel,
+.fer {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .toggle-btn {
   width: 80px;
   height: 40px;
