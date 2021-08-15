@@ -1,7 +1,8 @@
 ## Weather API:
 
 freeCodeCamp Weather API : https://weather-proxy.freecodecamp.rocks/.
-\*\* uses an HTTP Secure connection for the weather
+
+this app uses an HTTP Secure connection for the weather
 
 ## User Stories :
 
@@ -10,8 +11,6 @@ freeCodeCamp Weather API : https://weather-proxy.freecodecamp.rocks/.
 - [x] I can see a different icon or background image (e.g. snowy mountain, hot desert) depending on the weather.
 
 - [x] I can push a button to toggle between Fahrenheit and Celsius.
-
----
 
 ### Advence :
 
@@ -26,3 +25,13 @@ freeCodeCamp Weather API : https://weather-proxy.freecodecamp.rocks/.
 - [x] I can see a sum up of the wather - sunny, cloudy, rainy etc.
 
 - [ ] fix style of the website
+
+
+## Screenshots : 
+
+![screen](./screenshots/pic1.png)
+
+after giving premission for using my location
+
+![celsius](./screenshots/pic2.png)
+![fahrenheit](./screenshots/pic3.png)
