@@ -1,3 +1,6 @@
+## Website
+this project is deployed into github page - https://ariela147.github.io/Local-Weather-website/
+
 ## Weather API:
 
 freeCodeCamp Weather API : https://weather-proxy.freecodecamp.rocks/.
