@@ -45,7 +45,7 @@ function convertToF(celsius) {
     return Math.round(fahrenheit)+'\xB0F';
   }
 
-function toggle()
+function toggleConvertingCelsiusFahrenheit()
 {
     var temp = document.getElementById("data-temp").innerHTML ? document.getElementById("data-temp").innerHTML : null;
 
