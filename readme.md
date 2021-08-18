@@ -21,13 +21,13 @@ this app uses an HTTP Secure connection for the weather
 
 - [x] I can see how the weather feels like in tmperature
 
-- [ ] I can see wind speed
+- [x] I can see wind speed
 
-- [ ] I can see humidity percentage
+- [x] I can see humidity percentage
 
 - [x] I can see a sum up of the wather - sunny, cloudy, rainy etc.
 
-- [ ] fix style of the website
+- [x] fix style of the website
 
 
 ## Screenshots : 
