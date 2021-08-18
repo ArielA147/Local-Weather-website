@@ -9,42 +9,60 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">Let's check what is the weater</div>
-    <div class="side-menu">
-      
-      <div>
-        <input type="checkbox" id="use-location">
-        <img src="./icons/location.svg" alt="l-icon">
-        <label for="use-location">use my location</label>
-      </div>
-    </div>
+    <h3 class="header">What is the weather?</h3> 
 
     <div class="content" id="content"> 
-    <div class="current-data-temp">
-      <p> The current temperature is</p>
-      <p id="data-temp" class="data-temp"></p>
-    </div>
-      
-    <div class="feels-like-data-temp">
-      <p>It feels like</p>
-      <p id="data-temp-feels-like" class="data-temp-feels-like"> </p>
-    </div>
 
-    <div class="toggle-container">
-      <p class="cel" id="cel">Celsius</p>
-      <div class="toggle-btn"
-        onclick="this.classList.toggle('active'); toggleConvertingCelsiusFahrenheit()">
-        <div class="inner-circle"></div>
+      <div class = "user-location">
+        <input type="checkbox" id="use-location">
+        <img id="location-icon" src="./icons/location.svg" alt="l-icon">
+        <label for="use-location">use my location</label>
       </div>
-      <p class="fer" id="fer">Fahrenheit</p>
-    </div>
-    
-    <div class="container-watertype">
-      <p id="data-watertype"></p>
-      <img id="icon-watertype22" src="">
-      </img></div>
-    </div>
 
+      <div>
+        <h3 id="current-locaiton"></h3>
+      </div>
+
+      <div>
+        <h1 id="current-temp"></h1>
+      </div>
+
+      <div class="toggle-container">
+        <p class="cel" id="cel">Celsius</p>
+        <div class="toggle-btn"
+          onclick="this.classList.toggle('active'); toggleConvertingCelsiusFahrenheit()">
+          <div class="inner-circle"></div>
+        </div>
+        <p class="fer" id="fer">Fahrenheit</p>
+      </div>
+
+      <div class="container-watertype">
+        <p id="data-watertype"></p>
+        <img id="icon-watertype22" src="">
+      </div>
+
+      <div class="more-information">
+
+        <span>
+          <p>It feels like
+              <span id="data-temp-feels-like"></span>
+          </p>
+        </span>
+
+        <span>
+          <p>Humidity 
+            <span id="humidity"></span>
+          </p>
+        </span>
+
+        <span>
+          <p>Wind Speed 
+            <span id="wind-speed"></span>
+          </p>
+        </span>
+
+      </div>
+    </div>
 
 </body>
 <script src="./index.js"></script>

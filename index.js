@@ -7,8 +7,7 @@ function getData(){
     // .then(data => console.log(data)) // the output of the response json 
     .then(data => {
         // extractValues(data)
-        getWeatherText(data)
-        getWeatherIcon(data)
+        extractData(data)
         updateCurrentTemp(data)
         updateFeelsLikeTemp(data)
     })
@@ -19,43 +18,48 @@ function extractValues(data){
     console.log(data);
 }
 
-function getWeatherText(data){
+function extractData(data){
     document.getElementById('data-watertype').innerHTML = data.weather[0].description;
+    document.getElementById("icon-watertype22").src=data.weather[0].icon;
+    document.getElementById('humidity').innerHTML = data.main.humidity +'%';
+    document.getElementById('wind-speed').innerHTML = data.wind.speed +'km/h';
+    document.getElementById('current-locaiton').innerHTML = data.name;
 }
 
-function getWeatherIcon(data){
-    document.getElementById("icon-watertype22").src=data.weather[0].icon;
-}
 
 let tempCelsius;
 let feelsLiketempCelsius;
 
+/* the funciton adds a symbol of °F or °C */
+function addSymbol(temp, symbol){
+    temp = (symbol == 'F') ?  temp +'\xB0F' :  temp +'\xB0C' ;
+    return temp;
+}
+
 function updateCurrentTemp(data){
-    tempCelsius =  Math.round(data.main.temp) +'\xB0C';
-    document.getElementById('data-temp').innerHTML = tempCelsius;
+    tempCelsius =  Math.round(data.main.temp);
+    document.getElementById('current-temp').innerHTML = addSymbol(tempCelsius, 'C');
 }
 
 function updateFeelsLikeTemp(data){
-    feelsLiketempCelsius =  Math.round(data.main.feels_like) +'\xB0C';
-    document.getElementById('data-temp-feels-like').innerHTML = feelsLiketempCelsius;
+    feelsLiketempCelsius =  Math.round(data.main.feels_like);
+    document.getElementById('data-temp-feels-like').innerHTML = addSymbol(feelsLiketempCelsius, 'C');
 }
 
-function convertToF(celsius) {
-    let fahrenheit = celsius.match(/\d+/)[0] * 9/5 + 32;
-    return Math.round(fahrenheit)+'\xB0F';
+function convertToFahernheit(celsius) {
+    let fahrenheit = celsius * 9/5 + 32;
+    return Math.round(fahrenheit);
   }
 
 function toggleConvertingCelsiusFahrenheit()
 {
-    var temp = document.getElementById("data-temp").innerHTML ? document.getElementById("data-temp").innerHTML : null;
-
-    if (document.querySelector(".toggle-btn").classList.contains('active')){
-        document.getElementById("data-temp").innerHTML= convertToF(temp);
-        document.getElementById("data-temp-feels-like").innerHTML= convertToF(document.getElementById("data-temp-feels-like").innerHTML);
+    if (document.querySelector(".toggle-btn").classList.contains('active')){ // the user wants to see temperature in Fahernheit
+        document.getElementById("current-temp").innerHTML= addSymbol(convertToFahernheit(tempCelsius),'F');
+        document.getElementById("data-temp-feels-like").innerHTML= addSymbol(convertToFahernheit(feelsLiketempCelsius), 'F');
     }
     else {
-        document.getElementById("data-temp").innerHTML= tempCelsius;
-        document.getElementById("data-temp-feels-like").innerHTML = feelsLiketempCelsius;
+        document.getElementById("current-temp").innerHTML= addSymbol(tempCelsius, 'C');
+        document.getElementById("data-temp-feels-like").innerHTML = addSymbol(feelsLiketempCelsius, 'C');
     }
 }
 
@@ -66,12 +70,16 @@ btn.onclick = function(event){
     if (event.target.checked){
         getData() // extract the 
         document.querySelector(".toggle-container").style.visibility = 'visible';
+        document.querySelector(".more-information").style.visibility = 'visible';
     } else{
         // hide all the data we extract from the API
-        document.getElementById("data-temp").innerHTML = "";
-        document.getElementById("data-temp-feels-like").innerHTML ="";
+
+        document.getElementById("current-temp").innerHTML = "";
+        document.getElementById('current-locaiton').innerHTML = "";
         document.getElementById("data-watertype").innerHTML = "";
         document.getElementById("icon-watertype22").src = "";
+
+        document.querySelector(".more-information").style.visibility = 'hidden';
         document.querySelector(".toggle-container").style.visibility = 'hidden';
     }
 }
