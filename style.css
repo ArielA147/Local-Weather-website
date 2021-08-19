@@ -28,17 +28,11 @@ body {
   text-align: center;
 }
 
-.container-watertype {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .container {
   font-size: 1.25em;
   display: grid;
   grid-template-rows: 50px auto 1fr;
-  grid-gap: 10px;
+  grid-gasp: 10px;
   grid-template-areas:
     "header"
     "content";
@@ -68,9 +62,17 @@ body {
   padding-top: 15px;
 }
 
-/* #data-temp-feels-like {
-  margin-left: 10px;
-} */
+#data-watertype {
+  font-size: 1.9rem;
+}
+
+#current-location {
+  display: block;
+  font-weight: bold;
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
 
 #current-temp {
   font-weight: bold;
@@ -99,6 +101,7 @@ body {
 
 .more-information {
   visibility: hidden;
+  white-space: pre-line;
 }
 
 .cel,

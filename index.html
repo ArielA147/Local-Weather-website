@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="container">
-    <h3 class="header">What is the weather?</h3> 
+    <h1 class="header">What is the weather?</h1> 
 
     <div class="content" id="content"> 
 
@@ -19,13 +19,8 @@
         <label for="use-location">use my location</label>
       </div>
 
-      <div>
-        <h3 id="current-locaiton"></h3>
-      </div>
-
-      <div>
-        <h1 id="current-temp"></h1>
-      </div>
+        <p id="current-locaiton"></p>
+        <p id="current-temp"></h1>
 
       <div class="toggle-container">
         <p class="cel" id="cel">Celsius</p>
@@ -36,32 +31,14 @@
         <p class="fer" id="fer">Fahrenheit</p>
       </div>
 
-      <div class="container-watertype">
-        <p id="data-watertype"></p>
-        <img id="icon-watertype22" src="">
-      </div>
+        <p class="more-information">
+          <span id="data-watertype"></span>
+          <img id="icon-watertype22" src="">
+          It feels like <span id="data-temp-feels-like"></span>
+          Humidity <span id="humidity"></span>
+          Wind Speed <span id="wind-speed"></span>
+        </p>
 
-      <div class="more-information">
-
-        <span>
-          <p>It feels like
-              <span id="data-temp-feels-like"></span>
-          </p>
-        </span>
-
-        <span>
-          <p>Humidity 
-            <span id="humidity"></span>
-          </p>
-        </span>
-
-        <span>
-          <p>Wind Speed 
-            <span id="wind-speed"></span>
-          </p>
-        </span>
-
-      </div>
     </div>
 
 </body>
