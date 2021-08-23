@@ -6,7 +6,7 @@ function getData(){
     .then(response => response.json())
     // .then(data => console.log(data)) // the output of the response json 
     .then(data => {
-        // extractValues(data)
+        extractValues(data)
         extractData(data)
         updateCurrentTemp(data)
         updateFeelsLikeTemp(data)
@@ -81,5 +81,18 @@ btn.onclick = function(event){
 
         document.querySelector(".more-information").style.visibility = 'hidden';
         document.querySelector(".toggle-container").style.visibility = 'hidden';
+    }
+
+
+    function userTimeInDay (){
+        var myDate = new Date();
+        var hrs = myDate.getHours();
+
+        if (hrs < 12) // morning
+            document.main.background = "#89CFF0";
+        else if (hrs >= 12 && hrs <= 17) // after noon
+            document.main.background = "#38AEE6";
+        else if (hrs >= 17 && hrs <= 24) // evening
+            document.main.background = "#167CAC";
     }
 }
