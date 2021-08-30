@@ -1,98 +1,89 @@
-function getData(){
-    const url = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=32.0958&lon=34.9522';
-    fetch( url, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    // .then(data => console.log(data)) // the output of the response json 
-    .then(data => {
-        extractValues(data)
-        extractData(data)
-        updateCurrentTemp(data)
-        updateFeelsLikeTemp(data)
-    })
-    .catch(error => {console.error('Error:', error)});
+let state = {
+  hasLocation: false,
+  scale: 'C'
+};
+
+const apiEndpoint = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=32.0958&lon=34.9522';
+
+function fetchWeatherData() {
+    return fetch( apiEndpoint, {method: 'GET'})
+        .then(response => response.json())
+        .then(data => extractValues(data))
+        .catch(error => {console.error('Error:', error)});
 }
 
-function extractValues(data){
-    console.log(data);
+function extractValues(data) {
+    console.log("Got API response:", data)
+    let state = {
+        hasLocation: true,
+        description: data.weather[0].description,
+        icon: data.weather[0].icon,
+        humidity: data.main.humidity,
+        windspeed: data.wind.speed,
+        location: data.name,
+        tempC: data.main.temp,
+        feelsLikeC: data.main.feels_like
+    };
+    console.log("New state:", state);
+    return state;
 }
 
-function extractData(data){
-    document.getElementById('data-watertype').innerHTML = data.weather[0].description;
-    document.getElementById("icon-watertype22").src=data.weather[0].icon;
-    document.getElementById('humidity').innerHTML = data.main.humidity +'%';
-    document.getElementById('wind-speed').innerHTML = data.wind.speed +'km/h';
-    document.getElementById('current-locaiton').innerHTML = data.name;
-}
-
-
-let tempCelsius;
-let feelsLiketempCelsius;
-
-/* the funciton adds a symbol of °F or °C */
+/* the function adds a symbol of °F or °C */
 function addSymbol(temp, symbol){
-    temp = (symbol == 'F') ?  temp +'\xB0F' :  temp +'\xB0C' ;
+    temp = (symbol == 'F') ?  temp + '\xB0F' :  temp + '\xB0C' ;
     return temp;
 }
 
-function updateCurrentTemp(data){
-    tempCelsius =  Math.round(data.main.temp);
-    document.getElementById('current-temp').innerHTML = addSymbol(tempCelsius, 'C');
-}
-
-function updateFeelsLikeTemp(data){
-    feelsLiketempCelsius =  Math.round(data.main.feels_like);
-    document.getElementById('data-temp-feels-like').innerHTML = addSymbol(feelsLiketempCelsius, 'C');
-}
-
-function convertToFahernheit(celsius) {
+function convertToFahrenheit(celsius) {
     let fahrenheit = celsius * 9/5 + 32;
     return Math.round(fahrenheit);
-  }
+}
 
-function toggleConvertingCelsiusFahrenheit()
-{
-    if (document.querySelector(".toggle-btn").classList.contains('active')){ // the user wants to see temperature in Fahernheit
-        document.getElementById("current-temp").innerHTML= addSymbol(convertToFahernheit(tempCelsius),'F');
-        document.getElementById("data-temp-feels-like").innerHTML= addSymbol(convertToFahernheit(feelsLiketempCelsius), 'F');
-    }
-    else {
-        document.getElementById("current-temp").innerHTML= addSymbol(tempCelsius, 'C');
-        document.getElementById("data-temp-feels-like").innerHTML = addSymbol(feelsLiketempCelsius, 'C');
+function render(data) {
+    if (data.hasLocation) {
+        document.body.classList.remove("hide-weather-info");
+        document.getElementById('data-watertype').innerHTML = data.description;
+        document.getElementById("icon-watertype22").src=data.icon;
+        document.getElementById('humidity').innerHTML = data.humidity + '%';
+        document.getElementById('wind-speed').innerHTML = data.windspeed + 'km/h';
+        document.getElementById('current-location').innerHTML = data.location;
+        if (data.scale == 'C') {
+            document.getElementById('scale-toggle').classList.remove('active');
+        } else {
+            document.getElementById('scale-toggle').classList.add('active');
+        }
+        let temp = data.scale == 'C' ? data.tempC : convertToFahrenheit(data.tempC);
+        let feelsLikeTemp = data.scale == 'C' ? data.feelsLikeC : convertToFahrenheit(data.feelsLikeC);
+
+        document.getElementById('current-temp').innerHTML = addSymbol(Math.round(temp), data.scale);
+        document.getElementById('data-temp-feels-like').innerHTML = addSymbol(Math.round(feelsLikeTemp), data.scale);
+    } else {
+        document.body.classList.add("hide-weather-info");
     }
 }
 
-var btn = document.getElementById("use-location");
+function toggleConvertingCelsiusFahrenheit(event) {
+    state.scale = (state.scale == 'C') ? 'F' : 'C';
+    render(state);
+}
 
-// event lisnter on the button clicked
-btn.onclick = function(event){
+function toggleLocation(event) {
+    let messageEl = document.getElementById("loading-message");
     if (event.target.checked){
-        getData() // extract the 
-        document.querySelector(".toggle-container").style.visibility = 'visible';
-        document.querySelector(".more-information").style.visibility = 'visible';
+        messageEl.innerHTML = "Fetching weather data...";
+        // extract the data
+        fetchWeatherData().then(data => {
+            messageEl.innerHTML = "";
+            state = {...state, ...data};
+            render(state);
+        });
     } else{
         // hide all the data we extract from the API
-
-        document.getElementById("current-temp").innerHTML = "";
-        document.getElementById('current-locaiton').innerHTML = "";
-        document.getElementById("data-watertype").innerHTML = "";
-        document.getElementById("icon-watertype22").src = "";
-
-        document.querySelector(".more-information").style.visibility = 'hidden';
-        document.querySelector(".toggle-container").style.visibility = 'hidden';
-    }
-
-
-    function userTimeInDay (){
-        var myDate = new Date();
-        var hrs = myDate.getHours();
-
-        if (hrs < 12) // morning
-            document.main.background = "#89CFF0";
-        else if (hrs >= 12 && hrs <= 17) // after noon
-            document.main.background = "#38AEE6";
-        else if (hrs >= 17 && hrs <= 24) // evening
-            document.main.background = "#167CAC";
+        state.hasLocation = false;
+        render(state);
     }
 }
+
+// event listener on the button clicked
+document.getElementById("use-location").onclick = toggleLocation;
+document.getElementById("scale-toggle").onclick = toggleConvertingCelsiusFahrenheit;

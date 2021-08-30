@@ -1,56 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Document</title>
-</head>
-  <body class="container">
-    <h1 class="title">What is the weather?</h1> 
+  </head>
+  <body class="container hide-weather-info">
+    <h1 class="title">What is the weather?</h1>
 
-    <main class="content"> 
+    <main class="content">
       <div class = "user-location">
         <input type="checkbox" id="use-location">
         <img id="location-icon" src="./icons/location.svg" alt="l-icon">
         <label for="use-location">use my location</label>
       </div>
+      
+      <div id="loading-message"></div>
 
-      <p id="current-locaiton"></p>
-      <p id="current-temp"></h1>
-
-      <div class="toggle-container">
-        <p class="cel" id="cel">Celsius</p>
-        <div class="toggle-btn"
-          onclick="this.classList.toggle('active'); toggleConvertingCelsiusFahrenheit()">
-          <div class="inner-circle"></div>
+      <section class="weather-info">
+        <p id="current-location"></p>
+        <p id="current-temp"></p>
+        <div class="toggle-container">
+          <p class="cel" id="cel">Celsius</p>
+          <div id="scale-toggle" class="toggle-btn">
+            <div class="inner-circle"></div>
+          </div>
+          <p class="fer" id="fer">Fahrenheit</p>
         </div>
-        <p class="fer" id="fer">Fahrenheit</p>
-      </div>
 
-      <p class="more-information">
-        <span id="data-watertype"></span>
-        <img id="icon-watertype22" src="">
-        It feels like <span id="data-temp-feels-like"></span>
-        Humidity <span id="humidity"></span>
-        Wind Speed <span id="wind-speed"></span>
-      </p>
+        <p class="more-information">
+          <span id="data-watertype"></span>
+          <img id="icon-watertype22" src="">
+          It feels like <span id="data-temp-feels-like"></span>
+          Humidity <span id="humidity"></span>
+          Wind Speed <span id="wind-speed"></span>
+        </p>
+      </section>
 
-  </main>
-</body>
-<script type="text/javascript">
+    </main>
+  </body>
+  <script type="text/javascript">
     function userTimeInDay (){
         var myDate = new Date();
         var hrs = myDate.getHours();
-        
+
         if (hrs < 12) // morning
-          document.body.style.background = "#89CFF0";
+            document.body.style.background = "#89CFF0";
         else if (hrs >= 12 && hrs <= 17) // after noon
-          document.main.background = "#38AEE6";
+            document.main.background = "#38AEE6";
         else if (hrs >= 17 && hrs <= 24) // evening
-          document.main.background = "#167CAC";
+            document.main.background = "#167CAC";
     }
-</script>
-<script src="./index.js"></script>
+  </script>
+  <script src="./index.js"></script>
 </html>
