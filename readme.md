@@ -17,8 +17,6 @@ this app uses an HTTP Secure connection for the weather
 
 ### Advence :
 
-- [x] when cancels the selection to use my current location - hide the tmp.
-
 - [x] I can see how the weather feels like in tmperature
 
 - [x] I can see wind speed
@@ -26,6 +24,3 @@ this app uses an HTTP Secure connection for the weather
 - [x] I can see humidity percentage
 
 - [x] I can see a sum up of the wather - sunny, cloudy, rainy etc.
-
-
-## Screenshots : 
