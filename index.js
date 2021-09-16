@@ -1,5 +1,60 @@
-function getData(){
-    const url = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=32.0958&lon=34.9522';
+/*popup*/
+const open_btn = document.getElementById('open');
+const confirm_btn = document.getElementById('confirm');
+
+let url_location;
+
+function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }}
+  
+  function showPosition(position) {
+    let lat = position.coords.latitude.toFixed(4);
+    let long = position.coords.longitude.toFixed(4);
+    url_location = 'https://weather-proxy.freecodecamp.rocks/api/current?lat='+lat+'&lon='+long;
+    console.log("1: " + url_location);
+}
+
+open_btn.addEventListener('click', ()=>{
+    document.getElementById('modal_container').classList.add('show');
+    informationVisibilty('hide');
+});
+
+/*the user gave premission to use his location*/
+confirm_btn.addEventListener('click', ()=>{
+    document.getElementById('modal_container').classList.remove('show');
+    informationVisibilty('show');
+});
+
+function informationVisibilty(visibility){
+    if (visibility == 'hide'){
+        // hide all the data we extract from the API
+        document.getElementById("current-temp").innerHTML = "";
+        document.getElementById('current-locaiton').innerHTML = "";
+        document.getElementById("data-watertype").innerHTML = "";
+        document.getElementById("weather-sentence").innerHTML = "";
+        // document.getElementById("feels-like-temp").innerHTML = "";
+        document.querySelector(".more-information").style.visibility = 'hidden';
+        document.querySelector(".toggle-container").style.visibility = 'hidden';
+        document.getElementById("location_problem").style.display="visible";
+    }
+    else{
+        document.getElementById("location_problem").style.display="none";
+        document.querySelector(".location-problem").style.visibility= "none";
+        
+        // getLocation(); // TODO : fix inorder to extreact the url locatin dynamicly
+        url_location = "https://weather-proxy.freecodecamp.rocks/api/current?lat=31.9521&lon=34.9066";
+
+        // present infortion for the user about his weather in his location
+        getData(url_location) // extract the 
+        document.querySelector(".toggle-container").style.visibility = 'visible';
+        document.querySelector(".more-information").style.visibility = 'visible';
+    }
+}
+
+function getData(url){
+    // const url = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=32.0958&lon=34.9522';
     fetch( url, {
         method: 'GET'
     })
@@ -10,6 +65,7 @@ function getData(){
         extractData(data)
         updateCurrentTemp(data)
         updateFeelsLikeTemp(data)
+        getWeatherSentence(data)
     })
     .catch(error => {console.error('Error:', error)});
 }
@@ -20,7 +76,6 @@ function extractValues(data){
 
 function extractData(data){
     document.getElementById('data-watertype').innerHTML = data.weather[0].description;
-    document.getElementById("icon-watertype22").src=data.weather[0].icon;
     document.getElementById('humidity').innerHTML = data.main.humidity +'%';
     document.getElementById('wind-speed').innerHTML = data.wind.speed +'km/h';
     document.getElementById('current-locaiton').innerHTML = data.name;
@@ -63,36 +118,40 @@ function toggleConvertingCelsiusFahrenheit()
     }
 }
 
-var btn = document.getElementById("use-location");
+/* the function returns a weather-sentence according to the weather type*/
+function getWeatherSentence(data){
+    weatherType =  data.weather[0].description;
+    switch(weatherType){
+        case 'mist':
+            document.getElementById("weather-sentence").innerHTML = "The situation <br> is very unclear"
+            break;
+        case 'clear sky':
+            document.getElementById("weather-sentence").innerHTML = "No clouds on <br> the horizon"
+            break;
+        case 'few clouds':
+            document.getElementById("weather-sentence").innerHTML = "Are you on cloud <br> nine tonight?"
+            break;
+        case 'shower rain':
+            document.getElementById("weather-sentence").innerHTML = "Heavens are open not <br> only for you today"
+            break;
+        case 'snow':
+            document.getElementById("weather-sentence").innerHTML = "Under the weather <br> Under the blanket"
+            break;
+        case 'thounderstrom':
+            document.getElementById("weather-sentence").innerHTML = "Warm pyjamas will be <br> a good choice!"
+            break;
+        default:
+            document.getElementById("weather-sentence").innerHTML = "It’s as plain as day <br> that it’ll be a lovely day!";
+      }
+}
 
-// event lisnter on the button clicked
-btn.onclick = function(event){
-    if (event.target.checked){
-        getData() // extract the 
-        document.querySelector(".toggle-container").style.visibility = 'visible';
-        document.querySelector(".more-information").style.visibility = 'visible';
-    } else{
-        // hide all the data we extract from the API
-
-        document.getElementById("current-temp").innerHTML = "";
-        document.getElementById('current-locaiton').innerHTML = "";
-        document.getElementById("data-watertype").innerHTML = "";
-        document.getElementById("icon-watertype22").src = "";
-
-        document.querySelector(".more-information").style.visibility = 'hidden';
-        document.querySelector(".toggle-container").style.visibility = 'hidden';
-    }
-
-
-    function userTimeInDay (){
-        var myDate = new Date();
-        var hrs = myDate.getHours();
-
-        if (hrs < 12) // morning
-            document.main.background = "#89CFF0";
-        else if (hrs >= 12 && hrs <= 17) // after noon
-            document.main.background = "#38AEE6";
-        else if (hrs >= 17 && hrs <= 24) // evening
-            document.main.background = "#167CAC";
+/* the function returns a background according to user's local time*/
+function setBackgroundImageAcourdingToTime(){
+    const hours = new Date().getHours();
+    const isDayTime = hours > 6 && hours < 13;
+    if (isDayTime){
+        document.main.style.background = "url('background/day.svg')";
+    } else {
+        document.main.style.background = "url('background/night.svg')";
     }
 }
