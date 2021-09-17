@@ -37,11 +37,11 @@ main {
   margin: 0;
 }
 
-.current-locaiton {
+.current-location {
   font-size: 2.5rem;
   color: #f3f3f3;
   text-align: center;
-  margin: 0;
+  margin-top: 1.5625rem;
 }
 
 .current-temp {
@@ -232,4 +232,8 @@ footer {
   margin: 0 0 2.5rem 0;
   text-align: center;
   line-height: 4.375rem;
+}
+
+.hide-weather-info .weather-info {
+  visibility: hidden;
 }

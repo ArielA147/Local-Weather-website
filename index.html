@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Document</title>
 </head>
-  <body class="container">
+  <body class="container hide-weather-info">
     <main class="content">
 
       <div class="location-problem" id="location_problem">
-        <p>This app <br> curently workking only <br> when you give premmision <br> to your location</p>
+        <p>This app <br>is currently working only <br> when you give a premission <br> to use your location</p>
         <button class="open" id="open"> Edit Premmision </button>
       </div>
 
@@ -23,18 +23,17 @@
             <botton class="confirm" id="confirm">Confirm</botton>
         </div>
       </div>
-
+    <section class="weather-info">
       <p class="weather-sentence" id="weather-sentence"></p>
 
       <p class ="data-watertype" id="data-watertype"></p>
-      <p class ="current-locaiton" id="current-locaiton"></p>
+      <p class ="current-location" id="current-location"></p>
 
       <p class ="current-temp" id="current-temp"></p>
 
       <div class="toggle-container">
         <p class="cel" id="cel">Celsius</p>
-        <div class="toggle-btn"
-          onclick="this.classList.toggle('active'); toggleConvertingCelsiusFahrenheit()">
+        <div class="toggle-btn" id="scale-toggle">
           <div class="inner-circle"></div>
         </div>
         <p class="fer" id="fer">Fahrenheit</p>
@@ -43,14 +42,14 @@
       <div class="feels-like-temp" id="feels-like-temp"> 
         It feels like 
         <span id="data-temp-feels-like"></span>
-      </ג>
-
+      </div>
+    </section>
   </main>
   
   <footer>
     <div class = "date-wrapper">
-      <p class="date">16</p>
-      <p class="day-of-week">Fri</p>
+      <p class="date" id="date"></p>
+      <p class="day-of-week" id="day-of-week"></p>
     </div>
 
 
