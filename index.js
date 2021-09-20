@@ -1,45 +1,55 @@
-const apiEndpoint = 'https://weather-proxy.freecodecamp.rocks/api/current?lat=32.0958&lon=34.9522';
+const apiEndpoint = 'https://weather-proxy.freecodecamp.rocks/api/current'
 // todo : change apiEndpoint to get location dynamic and not hard coded
 
-function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    }}
-  function showPosition(position) {
-    let lat = position.coords.latitude.toFixed(4);
-    let long = position.coords.longitude.toFixed(4);
-    apiEndpoint = 'https://weather-proxy.freecodecamp.rocks/api/current?lat='+lat+'&lon='+long;
-    console.log("5 "+apiEndpoint);
+let state = {
+    hasLocation: false,
+    latitude: 32.0958,
+    longitude: 34.9522
+};
+
+/////// Functional core
+
+// Co-effects: pull new information into the program
+
+function fetchWeatherData(state) {
+    const queryParams = new URLSearchParams({lat: state.latitude, lon: state.longitude});
+    const url = apiEndpoint + "?" + queryParams.toString();
+    console.log("Fetching weather data: " + url);
+
+    return fetch(url, {method: 'GET'})
+        .then(response => response.json())
+        .then(data => {
+            let values = extractValues(data);
+            return {...state, ...values}
+        })
+        .catch(error => {
+            console.error('Error:', error)
+            return {...state, errorMessage: "Error fetching weather data: "+error};
+        });
 }
 
-/*popup*/
-let url_location;
+function getLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        } else {
+            reject("Geolocation API not available.");
+        }
+    });
+}
 
-document.getElementById('open').addEventListener('click', ()=>{
-    document.getElementById('modal_container').classList.add('show');
-    // informationVisibilty('hide');
-});
+// Pure functions
 
-/*the user gave premission to use his location*/
-document.getElementById('confirm').addEventListener('click', ()=>{
-    document.getElementById('modal_container').classList.remove('show');
-    // informationVisibilty('show');
-});
-
-let state = {
-    hasLocation: false
-  };
-
-function fetchWeatherData() {
-    return fetch( apiEndpoint, {method: 'GET'})
-    .then(response => response.json())
-    .then(data => extractValues(data))
-    .catch(error => {console.error('Error:', error)});
+function extractLocation(position) {
+    console.log("Got position", position.coords);
+    let lat = position.coords.latitude.toFixed(4);
+    let lon = position.coords.longitude.toFixed(4);
+    return {latitude: lat, longitude: lon};
 }
 
 function extractValues(data) {
     // console.log("Got API response:", data)
-    state = {
+    let state = {
         hasLocation: true,
         description: data.weather[0].description,
         humidity: data.main.humidity,
@@ -64,8 +74,34 @@ function convertToFahrenheit(celsius) {
     return Math.round(fahrenheit);
 }
 
+/* the function returns a weather-sentence according to the weather type*/
+function getWeatherSentence(weatherType){
+    let weatherSentence = {
+        "mist":  "The situation <br> is very unclear",
+        "clear sky": "No clouds on <br> the horizon",
+        "few clouds": "Are you on cloud <br> nine tonight?",
+        "shower rain": "Heavens are open not <br> only for you today",
+        "snow": "Under the weather <br> Under the blanket" ,
+        "thounderstrom": "Warm pyjamas will be <br> a good choice!",
+        "other": "It’s as plain as day <br> that it’ll be a lovely day!"
+    };
+    if (weatherSentence[weatherType] == undefined ){
+        return weatherSentence.other;
+    }
+    else{
+        return weatherSentence[weatherType];
+    }
+}
+
+
+// Effects: change state or UI
+
 function render(data) {
     // console.log("start rendering");
+    if (data.errorMessage) {
+        console.log("got error message", data.errorMessage);
+        document.getElementById("location-problem").innerHTML = data.errorMessage;
+    }
     if (data.hasLocation) {
         document.body.classList.remove("hide-weather-info");
         document.getElementById('data-watertype').innerHTML = data.description;
@@ -77,7 +113,7 @@ function render(data) {
         } else {
             document.getElementById('scale-toggle').classList.add('active');
         }
-        
+
         let temp = data.scale == 'C' ? data.tempC : convertToFahrenheit(data.tempC);
         let feelsLikeTemp = data.scale == 'C' ? data.feelsLikeC : convertToFahrenheit(data.feelsLikeC);
 
@@ -89,40 +125,18 @@ function render(data) {
         document.getElementById("date").innerHTML = today.getDate();
         document.getElementById("day-of-week").innerHTML = days[today.getDay()].substring(0,3);
 
-        document.getElementById("location_problem").style.display="none";
         document.querySelector(".toggle-container").style.visibility = 'visible';
         document.querySelector(".more-information").style.visibility = 'visible';
-
     } else {
         document.body.classList.add("hide-weather-info");
-        document.getElementById("location_problem").style.display="visible";
         document.querySelector(".more-information").style.visibility = 'hidden';
         document.querySelector(".toggle-container").style.visibility = 'hidden';
-
     }
 }
 
-/* the function returns a weather-sentence according to the weather type*/
-function getWeatherSentence(weatherType){
-    let weatherSentence = {
-        "mist":  "The situation <br> is very unclear",
-        "clear sky": "No clouds on <br> the horizon",
-        "few clouds": "Are you on cloud <br> nine tonight?",
-        "shower rain": "Heavens are open not <br> only for you today",
-        "snow": "Under the weather <br> Under the blanket" ,
-        "thounderstrom": "Warm pyjamas will be <br> a good choice!",
-        "other": "It’s as plain as day <br> that it’ll be a lovely day!" 
-    };
-    if (weatherSentence[weatherType] == undefined ){
-      return weatherSentence.other;
-    }
-    else{
-      return weatherSentence[weatherType];
-    }
-  }
-
 /* the function returns a background according to user's local time*/
-function setBackgroundImageAcourdingToTime(){
+// not in use
+function setBackgroundImageAccordingToTime(){
     const hours = new Date().getHours();
     const isDayTime = hours > 6 && hours < 13;
     if (isDayTime){
@@ -137,54 +151,34 @@ function toggleConvertingCelsiusFahrenheit(event) {
     render(state);
 }
 
-function toggleLocation(event) {
-    let messageEl = document.getElementById("loading-message");
-    console.log("4 - todo FIX THIS"+event.target.checked);
-    if (event.target.checked){
-        messageEl.innerHTML = "Fetching weather data...";
-        // extract the data
-        fetchWeatherData().then(data => {
-            messageEl.innerHTML = "";
-            state = {...state, ...data};
-            render(state);
+function confirmLocation() {
+    getLocation()
+        .then(loc => {
+            let location = extractLocation(loc);
+            return {...state, ...location}
+        })
+        .catch(e => {
+            console.error("Failed to get location", e);
+            if (e.message) {
+                return {...state, errorMessage: "Failed to get location: " + e.message};
+            } else {
+                return {...state, errorMessage: "Failed to get location: " + e};
+            }
+        })
+        .then(fetchWeatherData)
+        .then(data => {
+            console.log(data);
+            render(data);
+            state = data;
         });
-    } else{
-        // hide all the data we extract from the API
-        state.hasLocation = true; // needs to be false
-        fetchWeatherData().then(state =>{
-            render(state);
-        });
-    }
 }
 
-// function informationVisibilty(visibility){
-//     if (visibility == 'hide'){
-//         // hide all the data we extract from the API
-//         document.getElementById("current-temp").innerHTML = "";
-//         document.getElementById('current-location').innerHTML = "";
-//         document.getElementById("data-watertype").innerHTML = "";
-//         document.getElementById("weather-sentence").innerHTML = "";
-//         // document.getElementById("feels-like-temp").innerHTML = "";
-//         document.querySelector(".more-information").style.visibility = 'hidden';
-//         document.querySelector(".toggle-container").style.visibility = 'hidden';
-//         document.getElementById("location_problem").style.display="visible";
-//     }
-//     else{
-//         document.getElementById("location_problem").style.display="none";
-//         document.querySelector(".location-problem").style.visibility= "none";
-        
-//         // TODO : fix inorder to extreact the url locatin dynamicly
-//         url_location = "https://weather-proxy.freecodecamp.rocks/api/current?lat=31.9521&lon=34.9066";
+// Event handlers
 
-//         // present infortion for the user about his weather in his location
-//         // getData(url_location) // extract the 
-//         document.querySelector(".toggle-container").style.visibility = 'visible';
-//         document.querySelector(".more-information").style.visibility = 'visible';
-//     }
-// }
-
-// event listener on the button clicked
-// document.getElementById("use-location").onclick = toggleLocation;
-document.getElementById("confirm").onclick=toggleLocation;
 document.getElementById("scale-toggle").onclick = toggleConvertingCelsiusFahrenheit;
 
+/*the user gave premission to use his location*/
+document.getElementById("confirm-location").addEventListener("click", (e)=>{
+    document.getElementById('modal-container').classList.remove('show');
+    confirmLocation(e);
+});

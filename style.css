@@ -8,10 +8,11 @@ body {
   margin: 0;
   height: 100vh;
   font-family: "Roboto", sans-serif;
-  background-color: red;
+  background-color: blue;
   display: flex;
   flex-direction: column;
 }
+
 main {
   flex: 1 0 auto;
   flex-shrink: 0;
