@@ -23,7 +23,7 @@ main {
 
 .weather-sentence {
   line-height: 1.5;
-  padding-top: 10%;
+  padding-top: 5%;
   /* font-size: 4rem; */
   font-size: xxx-large;
   text-align: center;
@@ -67,7 +67,7 @@ main {
 }
 
 .feels-like-temp {
-  padding-top: 10%;
+  padding-top: 2%;
   font-size: 1.25rem;
   color: #f3f3f3;
   text-align: center;
@@ -75,7 +75,7 @@ main {
 
 /* footer */
 footer {
-  /* height: 15vh; */
+  height: 18vh;
   width: 100vw;
   background: #ffffff;
   display: flex;
@@ -144,9 +144,9 @@ footer {
 .toggle-btn {
   max-width: 15vw;
   max-height: 5vh;
-  padding: 1.1% 0 0 1.5%;
+  padding: 0.5% 0 0 0.3%;
   width: 85px;
-  height: 45px;
+  height: 54px;
   background: gray;
   border-radius: 30px;
   /* padding: 5px; */
