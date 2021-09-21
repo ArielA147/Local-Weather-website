@@ -1,5 +1,4 @@
 const apiEndpoint = 'https://weather-proxy.freecodecamp.rocks/api/current'
-// todo : change apiEndpoint to get location dynamic and not hard coded
 
 let state = {
     hasLocation: false,
@@ -14,7 +13,6 @@ let state = {
 function fetchWeatherData(state) {
     const queryParams = new URLSearchParams({lat: state.latitude, lon: state.longitude});
     const url = apiEndpoint + "?" + queryParams.toString();
-    console.log("Fetching weather data: " + url);
 
     return fetch(url, {method: 'GET'})
         .then(response => response.json())
@@ -41,14 +39,12 @@ function getLocation() {
 // Pure functions
 
 function extractLocation(position) {
-    console.log("Got position", position.coords);
     let lat = position.coords.latitude.toFixed(4);
     let lon = position.coords.longitude.toFixed(4);
     return {latitude: lat, longitude: lon};
 }
 
 function extractValues(data) {
-    // console.log("Got API response:", data)
     let state = {
         hasLocation: true,
         description: data.weather[0].description,
@@ -59,7 +55,6 @@ function extractValues(data) {
         feelsLikeC: data.main.feels_like,
         scale: 'C'
     };
-    console.log("tempC : ", state.tempC);
     return state;
 }
 
@@ -97,7 +92,6 @@ function getWeatherSentence(weatherType){
 // Effects: change state or UI
 
 function render(data) {
-    // console.log("start rendering");
     if (data.errorMessage) {
         console.log("got error message", data.errorMessage);
         document.getElementById("location-problem").innerHTML = data.errorMessage;
@@ -135,14 +129,13 @@ function render(data) {
 }
 
 /* the function returns a background according to user's local time*/
-// not in use
 function setBackgroundImageAccordingToTime(){
     const hours = new Date().getHours();
-    const isDayTime = hours > 6 && hours < 13;
+    const isDayTime = hours > 6 && hours < 16;
     if (isDayTime){
-        document.main.style.background = "url('background/day.svg')";
+        document.getElementById("content").style.backgroundImage="url('background/day.png')";
     } else {
-        document.main.style.background = "url('background/night.svg')";
+        document.getElementById("content").style.backgroundImage="url('background/night.png')";
     }
 }
 
@@ -167,13 +160,17 @@ function confirmLocation() {
         })
         .then(fetchWeatherData)
         .then(data => {
-            console.log(data);
             render(data);
             state = data;
         });
 }
 
 // Event handlers
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    setBackgroundImageAccordingToTime();
+}); 
 
 document.getElementById("scale-toggle").onclick = toggleConvertingCelsiusFahrenheit;
 

@@ -16,14 +16,16 @@ body {
 main {
   flex: 1 0 auto;
   flex-shrink: 0;
-  background: url(background/day.svg);
+  /* background-image: url("background/night.png"); */
   background-size: contain;
   background-repeat: repeat-x;
 }
 
 .weather-sentence {
-  line-height: 142px;
-  font-size: 4rem;
+  line-height: 1.5;
+  padding-top: 10%;
+  /* font-size: 4rem; */
+  font-size: xxx-large;
   text-align: center;
   font-weight: bold;
   color: #f3f3f3;
@@ -32,21 +34,24 @@ main {
 }
 
 .data-watertype {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
+  font-size: x-large;
   color: #f3f3f3;
   text-align: center;
   margin: 0;
 }
 
 .current-location {
-  font-size: 2.5rem;
+  /* font-size: 2.5rem; */
+  font-size: medium;
   color: #f3f3f3;
   text-align: center;
-  margin-top: 1.5625rem;
+  /* margin-top: 1.5625rem; */
 }
 
 .current-temp {
-  font-size: 11.625rem;
+  font-size: xxx-large;
+  /* font-size: 11.625rem; */
   color: #f3f3f3;
   text-align: center;
   letter-spacing: -4%;
@@ -62,6 +67,7 @@ main {
 }
 
 .feels-like-temp {
+  padding-top: 10%;
   font-size: 1.25rem;
   color: #f3f3f3;
   text-align: center;
@@ -69,6 +75,7 @@ main {
 
 /* footer */
 footer {
+  /* height: 15vh; */
   width: 100vw;
   background: #ffffff;
   display: flex;
@@ -91,20 +98,23 @@ footer {
 
 .date {
   font-weight: bold;
-  font-size: 4rem;
-  line-height: 75px;
+  /* font-size: 4rem; */
+  font-size: xx-large;
+  line-height: 1.5;
 }
 
 .day-of-week {
   clear: left;
-  font-size: 2.25rem;
-  line-height: 42px;
+  font-size: x-large;
+  /* font-size: 2.25rem; */
+  line-height: 1.5;
 }
 
 .more-information {
   display: flex;
   flex-grow: 1;
-  font-size: 1.875rem;
+  /* font-size: 1.875rem; */
+  font-size: medium;
   text-align: center;
   color: #000000;
   justify-content: space-evenly;
@@ -120,27 +130,34 @@ footer {
 /* toggle */
 
 .toggle-container {
+  font-size: small;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  /* font-size: 2.5rem; */
   text-align: center;
   color: #f3f3f3;
   visibility: hidden;
+  padding-top: 5%;
 }
 
 .toggle-btn {
+  max-width: 15vw;
+  max-height: 5vh;
+  padding: 1.1% 0 0 1.5%;
   width: 85px;
   height: 45px;
   background: gray;
   border-radius: 30px;
-  padding: 5px;
+  /* padding: 5px; */
   transition: all 300ms ease-in-out;
 }
 
 .toggle-btn > .inner-circle {
   width: 35px;
   height: 35px;
+  max-width: 6vw;
+  max-height: 4vh;
   background: #fff;
   border-radius: 50%;
   transition: all 300ms ease-in-out;
@@ -150,7 +167,8 @@ footer {
   background: #00acee;
 }
 .toggle-btn.active > .inner-circle {
-  margin-left: 35px;
+  /* margin-left: 35px; */
+  margin-left: 50%;
 }
 
 /*popup*/
@@ -171,8 +189,13 @@ footer {
   color: #f3f3f3;
   border-radius: 1.875rem;
   border: 0;
-  padding: 8px 90px;
-  font-size: 2.5rem;
+  /* padding: 8px 90px; */
+  /* font-size: 2.5rem; */
+  padding: 1.25rem 2.5rem;
+  font-size: large;
+  font-weight: 500;
+  max-width: 12.5rem;
+  text-shadow: 0px -1px 2px #000000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -194,22 +217,26 @@ footer {
 .modal {
   background-color: white;
   width: 37rem;
-  max-width: 100%;
+  max-width: 80%;
   padding: 2.125rem;
   border-radius: 2.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
   color: #666565;
 }
-
+.modal img {
+  max-width: 35%;
+}
 .modal h1 {
-  font-size: 2.875rem;
+  /* font-size: 2.875rem; */
+  font-size: x-large;
   font-weight: bold;
   margin: 0.625rem 0 1.25rem 0;
 }
 .modal p {
-  padding-bottom: 3.125rem;
-  font-size: 1.5rem;
+  padding: 0.625rem;
+  /* font-size: 1.5rem; */
+  font-size: medium;
   opacity: 0.7;
 }
 
@@ -232,7 +259,7 @@ footer {
   color: #f3f3f3;
   margin: 0 0 2.5rem 0;
   text-align: center;
-  line-height: 4.375rem;
+  line-height: 1.5;
 }
 
 .hide-weather-info .weather-info {
